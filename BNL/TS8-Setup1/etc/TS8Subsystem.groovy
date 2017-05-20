@@ -6,14 +6,14 @@ import org.lsst.ccs.subsystem.rafts.AspicControl;
 import org.lsst.ccs.subsystem.rafts.CabacControl;
 import org.lsst.ccs.subsystem.rafts.BiasControl;
 import org.lsst.ccs.subsystem.rafts.TempControl;
-import org.lsst.ccs.subsystem.monitor.Channel;
+import org.lsst.ccs.monitor.Channel;
 import org.lsst.ccs.utilities.ccd.*;
 import org.lsst.ccs.utilities.image.*;
 import org.lsst.ccs.subsystem.ts8.TS8Subsystem;
 import org.lsst.ccs.subsystem.ts8.sim.*;
 import org.lsst.ccs.subsystem.ts8.sim.TS8ClientFactorySimulation
 import org.lsst.ccs.description.groovy.CCSBuilder
-import org.lsst.ccs.subsystem.monitor.Page
+import org.lsst.ccs.monitor.Page
 import org.lsst.ccs.drivers.reb.ClientFactory
 import org.lsst.ccs.drivers.reb.SlowAdcs
 
@@ -33,23 +33,18 @@ System.out.println("Building TS8 subsystem in run mode: "+runMode);
 
 ClientFactory mainClientFactory = runMode.equals("simulation") ? new ClientFactorySimulation() : new ClientFactory();
 
+taskConfig = ["monitor-update/taskPeriodMillis":1000,"monitor-publish/taskPeriodMillis":10000]
+
 
 CCSBuilder builder = ["ts8"]
 
 builder.
-    "main" (TS8Subsystem, tickMillis:10000, geometry:raftGeometry, clientFactory:mainClientFactory) { 
+    "main" (TS8Subsystem, geometry:raftGeometry, clientFactory:mainClientFactory, nodeTags:taskConfig) { 
     
-
-
-
 	TempCtrl   (TempControl, gain: 0.1, timeConst: 120.0, smoothTime: 20.0,
                 maxOutput: 5.6, awGain: 4.0, basePower: 0.0, tolerance: 0.05,
-                updateTime: 30000, rebs: ["R00.Reb0", "R00.Reb2"], tempChans: ["R00.Reb0.CCDTemp1", "R00.Reb1.CCDTemp1"])
-/*
-	TempCtrl   (TempControl, gain: 0.1, timeConst: 120.0, smoothTime: 20.0,
-                maxOutput: 5.6, awGain: 4.0, basePower: 0.0, tolerance: 0.05,
-                updateTime: 30000, rebs: ["R00.Reb2"], tempChans: ["R00.Reb2.CCDTemp1"])
-*/
+                updateTime: 30000, rebs: ["R00.Reb0", "R00.Reb2"], tempChans: ["R00.Reb0.CCDTemp1", "R00.Reb1.CCDTemp1", "R00.Reb2.CCDTemp1"])
+
         for (Reb rebGeometry : raftGeometry.getChildrenList() ) {
             def rebCount = rebGeometry.getParallelPosition();
             def reb = rebGeometry.getUniqueId();
@@ -130,11 +125,11 @@ builder.
         "${reb}.AnaI"    (Channel, description: "Analog PS current", format: ".1f", units: "mA",
                           devcName: "${reb}", hwChan: 3, type: "POWER", scale: 1000, pageId: rebCount)
 
-        "${reb}.ClkV"    (Channel, description: "Clock PS voltage", units: "Volts",
-                          devcName: "${reb}", hwChan: 4, type: "POWER", pageId: rebCount)
+//        "${reb}.ClkV"    (Channel, description: "Clock PS voltage", units: "Volts",
+//                          devcName: "${reb}", hwChan: 4, type: "POWER", pageId: rebCount)
 
-        "${reb}.ClkI"    (Channel, description: "Clock PS current", format: ".1f", units: "mA",
-                          devcName: "${reb}", hwChan: 5, type: "POWER", scale: 1000, pageId: rebCount)
+//        "${reb}.ClkI"    (Channel, description: "Clock PS current", format: ".1f", units: "mA",
+//                          devcName: "${reb}", hwChan: 5, type: "POWER", scale: 1000, pageId: rebCount)
 
         "${reb}.ClkHV"   (Channel, description: "Clock High PS voltage", units: "Volts",
                           devcName: "${reb}", hwChan: 4, type: "POWER", pageId: rebCount)

@@ -25,8 +25,8 @@ reb0 = Reb.createReb(type);
 raftGeometry.addChildGeometry(reb0, 0, 0);
 reb1 = Reb.createReb(type);
 raftGeometry.addChildGeometry(reb1, 1, 0);
-//reb2 = Reb.createReb(type);
-//raftGeometry.addChildGeometry(reb2, 2, 0);
+reb2 = Reb.createReb(type);
+raftGeometry.addChildGeometry(reb2, 2, 0);
 
 def runMode = System.getProperty("org.lsst.ccs.run.mode","normal");
 System.out.println("Building TS8 subsystem in run mode: "+runMode);
@@ -40,15 +40,15 @@ builder.
     "main" (TS8Subsystem, tickMillis:10000, geometry:raftGeometry, clientFactory:mainClientFactory) { 
     
 
-/*
+
 	TempCtrl   (TempControl, gain: 0.1, timeConst: 120.0, smoothTime: 20.0,
                 maxOutput: 5.6, awGain: 4.0, basePower: 0.0, tolerance: 0.05,
                 updateTime: 30000, rebs: ["R00.Reb0", "R00.Reb2"], tempChans: ["R00.Reb0.CCDTemp1", "R00.Reb1.CCDTemp1"])
-*/
+/*
 	TempCtrl   (TempControl, gain: 0.1, timeConst: 120.0, smoothTime: 20.0,
                 maxOutput: 5.6, awGain: 4.0, basePower: 0.0, tolerance: 0.05,
                 updateTime: 30000, rebs: ["R00.Reb0"], tempChans: ["R00.Reb0.CCDTemp1"])
-
+*/
         for (Reb rebGeometry : raftGeometry.getChildrenList() ) {
             def rebCount = rebGeometry.getParallelPosition();
             def reb = rebGeometry.getUniqueId();
