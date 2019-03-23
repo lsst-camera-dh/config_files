@@ -1,0 +1,8 @@
+[ccs_subsystems]
+ts8 = cr-raft
+rebps = cr-rebps
+pd = ts8-bench/Monitor
+mono = ts8-bench/Monochromator
+ts8dac0 = ts8-raft/R00.Reb0.DAC
+ts8dac1 = ts8-raft/R00.Reb1.DAC
+ts8dac2 = ts8-raft/R00.Reb2.DAC

@@ -1,0 +1,5 @@
+[ccs_subsystems]
+ts8 = cr-raft
+rebps = cr-rebps
+pd = ts8-bench/Monitor
+mono = ts8-bench/Monochromator

@@ -1,0 +1,1 @@
+lcatr-harness --unit-type=LCA-10692_CRTM --unit-id=LCA-10692_CRTM-0001 --job=dark_raft_acq --version=v0 --lims-url=http://localhost:9876 --archive-root=/gpfs/slac/lsst/fs1/g/data/R_and_D/archive --install-area=/home/homer/cr/jh_inst/1.0.1/share --stage-root=/gpfs/slac/lsst/fs1/g/data/R_and_D/stage --config=/home/ccs/devel/cr/lcatr.cfg
